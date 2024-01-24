@@ -27,7 +27,9 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-$(uname -m)
 RUN bash ./Miniconda3-latest-Linux-$(uname -m).sh -b \
     && rm -rf ./Miniconda3-latest-Linux-$(uname -m).sh
 
-RUN git clone --depth 1 --branch $BRANCH_OR_TAG https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /app/stable-diffusion-webui
+# RUN git clone --depth 1 --branch $BRANCH_OR_TAG https://github.com/AUTOMATIC1111/stable-diffusion-webui.git /app/stable-diffusion-webui
+
+COPY stable-diffusion-webui /app/stable-diffusion-webui
 
 ENV PATH /app/miniconda3/bin/:$PATH
 
@@ -60,11 +62,7 @@ RUN pip install clip -i https://pypi.tuna.tsinghua.edu.cn/simple
 COPY launch-test.py .
 
 # RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-RUN python3 launch-test.py --skip-torch-cuda-test
-
-COPY Realistic_Vision_V1.4.safetensors /app/stable-diffusion-webui/models/Stable-diffusion
-
-COPY ESRGAN_4x.pth /app/stable-diffusion-webui/models/ESRGAN
+# RUN python3 launch-test.py --skip-torch-cuda-test
 
 COPY server /app/server
 
